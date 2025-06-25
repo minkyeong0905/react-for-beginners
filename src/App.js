@@ -1,34 +1,54 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 function App() {
-  const [toDo, setToDo] = useState("");
-  const [toDos, setToDos] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [coins, setCoins] = useState([]);
+  const [amount, setAmount] = useState(0);
+  const [id, setId] = useState("");
 
-  const onChange = (event) => setToDo(event.target.value);
-  const onSubmit = (event) => {
-    event.preventDefault();
-    if(toDo === "") {
-      return;
-    }
+  const selectedCoin = coins.find((item) => item.id === id);
+  
+  useEffect(() => {
+    fetch("https://api.coinpaprika.com/v1/tickers")
+      .then(response => response.json())
+      .then((json) => {
+        setCoins(json);
+        setLoading(false);
+        setId(json[0]?.id || "")
+      });
+  }, []);
 
-    setToDos((currentArray) => [toDo, ...currentArray]);
-    setToDo("");
+  const onCoinSelect = (event) => {
+    setId(event.target.value);
   };
-  console.log(toDos);
 
-  return (
+  const onChange = (event) => {
+    setAmount(event.target.value);
+  };
+
+  return <div>
+    <h1>The Coins! {loading ? "" : `(${coins.length})`}</h1>
+    {loading ? <strong>Loading...</strong> : (
     <div>
-      <h1>My To Dos ({toDos.length})</h1>
-      <form onSubmit={onSubmit}>
-        <input type="text" placeholder="Write your to-do..." value={toDo} onChange={onChange} />
-        <button>Add To Do</button>
-      </form>
+      <select onChange={onCoinSelect} value={id}>
+        {coins.map((coin) => <option key={coin.id} value={coin.id}>{coin.name} ({coin.symbol}): ${coin.quotes.USD.price} USD</option>)}
+      </select>
+
       <hr />
-      <ul>
-        {toDos.map((item, index) => <li key={index}>{item}</li>)}
-      </ul>
+
+      <div>
+        <label htmlFor="usd">USD($) </label>
+        <input id="usd" type="number" placeholder="USD" value={amount} onChange={onChange} />
+      </div>
+
+      <div>
+        <label htmlFor="coin">{selectedCoin.name} ({selectedCoin.symbol}) </label>
+        <input id="coin" type="number" disabled={true} value={selectedCoin.quotes.USD.price > 0 ? (amount / selectedCoin.quotes.USD.price).toFixed(5) : 0} />
+      </div>
     </div>
-  );
+    )}
+    
+  </div>;
 }
 
 export default App;
