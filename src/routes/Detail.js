@@ -17,7 +17,6 @@ function Detail() {
     };
 
     useEffect(() => {getMovie();}, [id]);
-    console.log(detail);
     
     return (
         <div className={styles.container} style={{backgroundImage: detail ? `url(${detail.background_image})` : 'none'}}>
@@ -45,8 +44,21 @@ function Detail() {
                     </div>
                     <div className={styles.movie__body}>
                         <h3>{`Language : ${detail.language}`}</h3>
-                        <h3>{`Rating : ${detail.rating}`}</h3>
-                        <h3>{`Runtime : ${detail.runtime} min`}</h3>
+                        <div style={{marginBottom: "15px"}}>
+                            <span style={{fontWeight: "bold", fontSize: "19px", marginRight: "10px"}}>{`Rating : ${detail.rating}`}</span>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+                                <path fill="currentColor" d="m12 17.275l-4.15 2.5q-.275.175-.575.15t-.525-.2t-.35-.437t-.05-.588l1.1-4.725L3.775 10.8q-.25-.225-.312-.513t.037-.562t.3-.45t.55-.225l4.85-.425l1.875-4.45q.125-.3.388-.45t.537-.15t.537.15t.388.45l1.875 4.45l4.85.425q.35.05.55.225t.3.45t.038.563t-.313.512l-3.675 3.175l1.1 4.725q.075.325-.05.588t-.35.437t-.525.2t-.575-.15z" />
+                            </svg>
+                        </div>
+                        <div>
+                            <span style={{fontWeight: "bold", fontSize: "19px", marginRight: "10px"}}>{`Runtime : ${detail.runtime}`}</span>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+                                <g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
+                                    <path d="M3 12a9 9 0 1 0 18 0a9 9 0 0 0-18 0" />
+                                    <path d="M12 7v5l3 3" />
+                                </g>
+                            </svg>
+                        </div>
                         <h3>Genres</h3>
                         <ul className={styles.movie__genres}>
                             {
@@ -55,7 +67,12 @@ function Detail() {
                                 ))
                             }
                         </ul>
-                        <h3>{`Likes : ${detail.like_count}`}</h3>
+                        <div style={{marginTop: "15px"}}>
+                            <span style={{fontWeight: "bold", fontSize: "19px", marginRight: "10px"}}>{`Likes : ${detail.like_count}`}</span>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+                                <path fill="currentColor" d="M5 9v12H1V9zm4 12a2 2 0 0 1-2-2V9c0-.55.22-1.05.59-1.41L14.17 1l1.06 1.06c.27.27.44.64.44 1.05l-.03.32L14.69 8H21a2 2 0 0 1 2 2v2c0 .26-.05.5-.14.73l-3.02 7.05C19.54 20.5 18.83 21 18 21zm0-2h9.03L21 12v-2h-8.79l1.13-5.32L9 9.03z" />
+                            </svg>
+                        </div>
                     </div>
                 </div>
             }
